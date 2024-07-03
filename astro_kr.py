@@ -130,7 +130,7 @@ def determine_fortune(planet_positions):
     return fortune_messages
 
 
-st.title('향상된 점성술 앱')
+st.title('별자리 점성술')
 
 # Separate inputs for year, month, and day
 current_year = datetime.datetime.now().year
@@ -148,7 +148,7 @@ except ValueError:
 birth_time = st.time_input("태어난 시간을 입력하세요")
 birth_place = st.text_input("태어난 장소를 입력하세요 (도시, 국가)")
 
-if st.button('점성술 정보 얻기'):
+if st.button('오늘의 운세를 알아보기'):
     zodiac_sign = get_zodiac_sign(birth_date.month, birth_date.day)
     st.write(f"당신의 별자리는: {zodiac_sign}")
 
