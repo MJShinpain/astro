@@ -119,7 +119,7 @@ def determine_fortune(planet_positions):
 
     for key, prompt in prompts.items():
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o-2024-05-13",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant that provides astrology fortune readings. Please answer in Korean."},
                 {"role": "user", "content": prompt}
