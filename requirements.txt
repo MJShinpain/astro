@@ -5,5 +5,3 @@ skyfield
 pandas
 numpy
 openai
-os
-dotenv
