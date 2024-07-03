@@ -121,7 +121,7 @@ def determine_fortune(planet_positions):
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant that provides astrology fortune readings. please answer in Korean."},
+                {"role": "system", "content": "You are a helpful assistant that provides astrology fortune readings. Please answer in Korean."},
                 {"role": "user", "content": prompt}
             ],
         )
@@ -162,7 +162,6 @@ if st.button('점성술 정보 얻기'):
         for planet, position in planet_positions.items():
             st.write(f"{planet.capitalize()}: {position}")
 
-        # Display current planet positions and current fortune
         current_planet_positions = get_current_planet_positions(lat, lon)
         st.write("현재 행성 위치:")
         for planet, position in current_planet_positions.items():
@@ -171,7 +170,7 @@ if st.button('점성술 정보 얻기'):
         current_fortune = determine_fortune(current_planet_positions)
         st.write("현재 운세:")
         for key, message in current_fortune.items():
-            st.write(f"{key}: {message}")
+            st.write(message)
 
     else:
         st.write("입력한 태어난 장소의 좌표를 찾을 수 없습니다. 기본 위치(서울시)를 사용합니다.")
@@ -184,9 +183,8 @@ if st.button('점성술 정보 얻기'):
         birth_fortune = determine_fortune(planet_positions)
         st.write("당신의 운세 (기본 위치 기반):")
         for key, message in birth_fortune.items():
-            st.write(f"{key}: {message}")
+            st.write(message)
 
-        # Display current planet positions and current fortune with default location
         current_planet_positions = get_current_planet_positions(lat, lon)
         st.write("현재 행성 위치 (기본 위치 기반):")
         for planet, position in current_planet_positions.items():
@@ -195,10 +193,10 @@ if st.button('점성술 정보 얻기'):
         current_fortune = determine_fortune(current_planet_positions)
         st.write("현재 운세 (기본 위치 기반):")
         for key, message in current_fortune.items():
-            st.write(f"{key}: {message}")
+            st.write(message)
 
     st.write("""
     참고: 이 앱은 오락 목적으로 점성술 정보를 제공합니다. 
     점성술은 과학적인 학문으로 간주되지 않으며 중요한 결정을 내리는 데 사용되지 않아야 합니다.
-    20240703 1245
+    20240703 1257
     """)
