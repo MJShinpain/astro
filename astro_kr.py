@@ -80,13 +80,39 @@ def get_planet_positions(birth_date, birth_time, lat, lon):
 
     return positions
 
+def get_current_planet_positions(lat, lon):
+    ts = load.timescale()
+    t = ts.now()
+
+    eph = load('de421.bsp')
+    earth = eph['earth']
+
+    planets = {
+        'sun': eph['sun'],
+        'moon': eph['moon'],
+        'mercury': eph['mercury'],
+        'venus': eph['venus'],
+        'mars': eph['mars'],
+        'jupiter': eph['jupiter barycenter'],
+        'saturn': eph['saturn barycenter']
+    }
+
+    positions = {}
+
+    for planet, body in planets.items():
+        astrometric = earth.at(t).observe(body)
+        ra, dec, _ = astrometric.apparent().radec()
+        positions[planet] = f"RA: {ra.hours:.2f}h, Dec: {dec.degrees:.2f}°"
+
+    return positions
+
 
 def determine_fortune(planet_positions):
     prompts = {
-        "재정 운": "Describe the financial fortune based on the positions of Jupiter and Venus in astrology.",
-        "애정 운": "Describe the love fortune based on the positions of Mars and Venus in astrology.",
-        "건강 운": "Describe the health fortune based on the positions of the Moon in astrology.",
-        "직업 운": "Describe the career fortune based on the positions of Mercury and Jupiter in astrology."
+        "재정 운": f"Describe the financial fortune based on the positions of Jupiter (RA: {planet_positions['jupiter']}) and Venus (RA: {planet_positions['venus']}) in astrology.",
+        "애정 운": f"Describe the love fortune based on the positions of Mars (RA: {planet_positions['mars']}) and Venus (RA: {planet_positions['venus']}) in astrology.",
+        "건강 운": f"Describe the health fortune based on the positions of the Moon (RA: {planet_positions['moon']}) in astrology.",
+        "직업 운": f"Describe the career fortune based on the positions of Mercury (RA: {planet_positions['mercury']}) and Jupiter (RA: {planet_positions['jupiter']}) in astrology."
     }
 
     fortune_messages = {}
@@ -136,25 +162,49 @@ if st.button('점성술 정보 얻기'):
         for planet, position in planet_positions.items():
             st.write(f"{planet.capitalize()}: {position}")
 
-        # Determine and display wealth fortune
-        wealth_fortune = determine_fortune(planet_positions)
+        # Determine and display birth fortune
+        birth_fortune = determine_fortune(planet_positions)
         st.write("당신의 운세:")
-        for key, message in wealth_fortune.items():
+        for key, message in birth_fortune.items():
             st.write(f"{key}: {message}")
+
+        # Display current planet positions and current fortune
+        current_planet_positions = get_current_planet_positions(lat, lon)
+        st.write("현재 행성 위치:")
+        for planet, position in current_planet_positions.items():
+            st.write(f"{planet.capitalize()}: {position}")
+
+        current_fortune = determine_fortune(current_planet_positions)
+        st.write("현재 운세:")
+        for key, message in current_fortune.items():
+            st.write(f"{key}: {message}")
+
     else:
-        st.write("입력한 태어난 장소의 좌표를 찾을 수 없습니다. 기본 위치(뉴욕시)를 사용합니다.")
-        lat, lon = 40.7128, -74.0060
+        st.write("입력한 태어난 장소의 좌표를 찾을 수 없습니다. 기본 위치(서울시)를 사용합니다.")
+        lat, lon = 37.5665, 126.9780  # 서울시 좌표
         planet_positions = get_planet_positions(birth_date, birth_time, lat, lon)
         st.write("태어난 때의 행성 위치 (기본 위치 기반):")
         for planet, position in planet_positions.items():
             st.write(f"{planet.capitalize()}: {position}")
 
-        wealth_fortune = determine_fortune(planet_positions)
+        birth_fortune = determine_fortune(planet_positions)
         st.write("당신의 운세 (기본 위치 기반):")
-        for key, message in wealth_fortune.items():
+        for key, message in birth_fortune.items():
+            st.write(f"{key}: {message}")
+
+        # Display current planet positions and current fortune with default location
+        current_planet_positions = get_current_planet_positions(lat, lon)
+        st.write("현재 행성 위치 (기본 위치 기반):")
+        for planet, position in current_planet_positions.items():
+            st.write(f"{planet.capitalize()}: {position}")
+
+        current_fortune = determine_fortune(current_planet_positions)
+        st.write("현재 운세 (기본 위치 기반):")
+        for key, message in current_fortune.items():
             st.write(f"{key}: {message}")
 
     st.write("""
     참고: 이 앱은 오락 목적으로 점성술 정보를 제공합니다. 
     점성술은 과학적인 학문으로 간주되지 않으며 중요한 결정을 내리는 데 사용되지 않아야 합니다.
+    20240703 1245
     """)
