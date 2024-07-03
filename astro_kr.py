@@ -1,5 +1,3 @@
-import os
-from dotenv import load_dotenv
 import openai
 import streamlit as st
 import datetime
@@ -9,11 +7,8 @@ from skyfield.data import mpc
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeocoderUnavailable
 
-# .env 파일에서 환경 변수 로드
-load_dotenv()
-
 # OpenAI API 키 설정
-openai_api_key = os.getenv('OPENAI_API_KEY')
+openai_api_key = st.secrets["OPENAI_API_KEY"]
 if not openai_api_key:
     raise ValueError("OpenAI API key is not set. Please set it in the .env file or as an environment variable.")
 
