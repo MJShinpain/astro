@@ -109,10 +109,10 @@ def get_current_planet_positions(lat, lon):
 
 def determine_fortune(planet_positions):
     prompts = {
-        "재정 운": f"Describe the financial fortune based on the positions of Jupiter (RA: {planet_positions['jupiter']}) and Venus (RA: {planet_positions['venus']}) in astrology.",
-        "애정 운": f"Describe the love fortune based on the positions of Mars (RA: {planet_positions['mars']}) and Venus (RA: {planet_positions['venus']}) in astrology.",
-        "건강 운": f"Describe the health fortune based on the positions of the Moon (RA: {planet_positions['moon']}) in astrology.",
-        "직업 운": f"Describe the career fortune based on the positions of Mercury (RA: {planet_positions['mercury']}) and Jupiter (RA: {planet_positions['jupiter']}) in astrology."
+        "재정 운": f"Given the positions of Jupiter (RA: {planet_positions['jupiter']}) and Venus (RA: {planet_positions['venus']}), evaluate the financial fortune, assign a score out of 100, and provide the result in Korean.",
+        "애정 운": f"Given the positions of Mars (RA: {planet_positions['mars']}) and Venus (RA: {planet_positions['venus']}), evaluate the love fortune, assign a score out of 100, and provide the result in Korean.",
+        "건강 운": f"Given the position of the Moon (RA: {planet_positions['moon']}), evaluate the health fortune, assign a score out of 100, and provide the result in Korean.",
+        "직업 운": f"Given the positions of Mercury (RA: {planet_positions['mercury']}) and Jupiter (RA: {planet_positions['jupiter']}), evaluate the career fortune, assign a score out of 100, and provide the result in Korean."
     }
 
     fortune_messages = {}
