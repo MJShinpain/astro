@@ -162,12 +162,6 @@ if st.button('점성술 정보 얻기'):
         for planet, position in planet_positions.items():
             st.write(f"{planet.capitalize()}: {position}")
 
-        # Determine and display birth fortune
-        birth_fortune = determine_fortune(planet_positions)
-        st.write("당신의 운세:")
-        for key, message in birth_fortune.items():
-            st.write(f"{key}: {message}")
-
         # Display current planet positions and current fortune
         current_planet_positions = get_current_planet_positions(lat, lon)
         st.write("현재 행성 위치:")
